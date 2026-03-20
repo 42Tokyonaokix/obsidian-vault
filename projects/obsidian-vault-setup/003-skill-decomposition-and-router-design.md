@@ -8,6 +8,7 @@ tags: [skill, task-management, architecture]
 ## 概要
 
 manage-tasksスキルを4つの個別スキルに分解し、ルータースキル`tasks`を新設する設計を行った。
+さらに、スキルグループごとの番号帯プレフィックスを導入し、一覧時の視認性を向上させる。
 
 ## 作業内容
 
@@ -28,10 +29,16 @@ manage-tasks を以下4スキルに分解した（decompose は add に統合）
 
 ### 設計済み・未実装: ルータースキルと description 最適化
 
-#### 通し番号 → 不採用
+#### グループ番号帯プレフィックス → 採用
 
-- ディレクトリ名 = スキル識別子のため、`01-tasks-add` だと `/01-tasks-add` になり不便
-- Claude は description でスキルを発見するため番号は無意味
+スキルグループごとに番号帯を割り当て、ディレクトリ名にプレフィックスを付ける。
+ユーザーは名前で検索すればサジェストされるため番号を覚える必要はなく、一覧表示時にグループ単位でソートされて視認性が上がる。
+
+| 番号帯 | グループ | スキル |
+|--------|----------|--------|
+| `00` | 汎用（既存） | `update-config`, `keybindings-help`, `simplify`, `loop`, `claude-api` |
+| `01` | obsidian + tasks | `tasks`(ルーター), `tasks-add`, `tasks-list`, `tasks-update`, `tasks-daily`, `obsidian-write`, `obsidian-read` |
+| `02` | superpowers | `brainstorming`, `debugging`, etc. |
 
 #### ルータースキル `tasks` → 採用
 
@@ -52,13 +59,15 @@ manage-tasks を以下4スキルに分解した（decompose は add に統合）
 
 ## 決定事項
 
-- スキル名に通し番号は付けない
+- グループ番号帯プレフィックスを採用（00: 汎用、01: obsidian+tasks、02: superpowers）
 - ルータースキル `tasks` を作成してサブスキルに振り分ける
 - サブスキルの description を狭めてルーター優先マッチにする
 - フロー図はルータースキル内に埋め込む
+- obsidian 系スキル（obsidian-write, obsidian-read）は tasks 系と同じ 01 番号帯に統合
 
 ## 次にやること
 
-- `~/.claude/skills/tasks/SKILL.md` の作成（ルーター本体）
+- 全スキルのディレクトリ名に番号帯プレフィックスを付与
+- `~/.claude/skills/01-tasks/SKILL.md` の作成（ルーター本体）
 - 各サブスキルの description を狭める
 - 動作確認（ルーター経由 & 直接呼び出し）
