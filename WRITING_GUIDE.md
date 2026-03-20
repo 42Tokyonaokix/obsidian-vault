@@ -90,3 +90,59 @@ tags: []
 |---|---------|------|------|
 | 001 | ノートタイトル | YYYY-MM-DD | 概要テキスト |
 ````
+
+## タスク管理
+
+### ディレクトリ構造
+
+- `tasks/{project-name}/` — プロジェクト単位のタスク
+- `tasks/_global/` — プロジェクト横断TODO
+- フォルダ名はケバブケース（`projects/` と同じ命名規則）
+- ファイル命名は既存ルール踏襲: `{NNN}-{slug}.md`
+- 1ファイル = 1タスクグループ（サブタスクをネスト）
+
+### タスクファイルテンプレート
+
+````yaml
+---
+title: "タスクグループのタイトル"
+date: YYYY-MM-DD
+project: project-name
+status: todo
+progress: 0/N
+priority: high
+tags: []
+---
+````
+
+セクション:
+- `## 概要` — 必須。タスクグループの説明1〜2行
+- `## タスク` — チェックボックスでサブタスク一覧
+
+### チェックボックスの記法
+
+- `- [ ]` — 未着手
+- `- [/]` — 進行中
+- `- [x]` — 完了
+
+### frontmatterフィールド
+
+| フィールド | 必須 | 値 |
+|-----------|------|-----|
+| title | yes | タスクグループのタイトル |
+| date | yes | 作成日 YYYY-MM-DD |
+| project | yes | プロジェクト名（`_global` も可） |
+| status | yes | `todo` / `in_progress` / `done` |
+| progress | yes | `完了数/全数`（トップレベルのサブタスクのみカウント） |
+| priority | yes | `high` / `medium` / `low` |
+| tags | yes | タグ配列（空でもフィールドは省略しない） |
+
+### statusの自動決定ルール
+
+- 全サブタスク未着手 → `todo`
+- 1つでも着手 → `in_progress`
+- 全サブタスク完了 → `done`
+
+### registry.mdとの関係
+
+タスクはregistry.mdに含めない。frontmatterスキャンで一覧取得する。
