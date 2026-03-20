@@ -1,0 +1,90 @@
+/* ===========================
+   セクションタイトルの色分け + スティッキーヘッダー
+   暖色系・見出しレベルで段階変化
+   h1=赤, h2=オレンジ, h3=黄色, h4=薄い黄色
+   =========================== */
+
+/* --- スティッキーヘッダー --- */
+
+/* 閲覧モード */
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4 {
+  position: sticky;
+  top: 0;
+  background-color: var(--background-primary);
+  padding-top: 8px;
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+}
+
+/* h1 — 赤 */
+.markdown-preview-view h1 {
+  color: #e53935;
+  border-bottom: 3px solid #e53935;
+  z-index: 12;
+}
+
+/* h2 — オレンジ */
+.markdown-preview-view h2 {
+  color: #fb8c00;
+  border-bottom: 2px solid #fb8c00;
+  z-index: 11;
+}
+
+/* h3 — 黄色 */
+.markdown-preview-view h3 {
+  color: #f9a825;
+  border-bottom: 1px solid #f9a825;
+  z-index: 10;
+}
+
+/* h4 — 薄い黄色 */
+.markdown-preview-view h4 {
+  color: #fdd835;
+  border-bottom: 1px solid #fdd835;
+  z-index: 9;
+}
+
+/* --- Live Preview（編集モード） --- */
+
+.cm-content .HyperMD-header-1 {
+  position: sticky;
+  top: 0;
+  z-index: 12;
+  background-color: var(--background-primary);
+  padding-top: 8px;
+  padding-bottom: 4px;
+  border-bottom: 3px solid #e53935;
+}
+
+.cm-content .HyperMD-header-2 {
+  position: sticky;
+  top: 0;
+  z-index: 11;
+  background-color: var(--background-primary);
+  padding-top: 8px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #fb8c00;
+}
+
+.cm-content .HyperMD-header-3 {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--background-primary);
+  padding-top: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #f9a825;
+}
+
+.cm-content .HyperMD-header-4 {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  background-color: var(--background-primary);
+  padding-top: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #fdd835;
+}
