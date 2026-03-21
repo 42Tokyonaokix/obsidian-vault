@@ -28,6 +28,7 @@
 | 013 | JWT トークンを RunnableConfig metadata 経由で DGM API に伝播 | 2026-03-22 | RunnableConfig metadata 方式で JWT を LLM に露出させずに DGM API へ伝播。8ファイル変更、全テストパス。 |
 | 014 | RAG メタデータフィルタリング: UI選択ベースのフィルタ実装 | 2026-03-22 | セッション一覧に voltage_type/area 選択UIを追加し、Cookie保存でRAG検索時にハード除外フィルタを適用。23テスト全パス。 |
 | 015 | 3機能群の段階的push | 2026-03-22 | フィードバック・ビジネスタグ・RAGメタデータフィルタリングの16コミットを3回に分けて段階的にpush。 |
+| 016 | フロントエンド UI 接続状況の調査 | 2026-03-22 | ポート80/8000の接続問題を調査。UIコード（widget/dashboard/admin）は存在するがDocker/nginxに未接続。Plan 03が必要。 |
 
 #### タスク
 | # | タイトル | ステータス | 優先度 |
