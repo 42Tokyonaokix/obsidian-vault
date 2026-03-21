@@ -24,6 +24,11 @@
 | 002 | pull-all-repos スクリプト修正とcrontab設定 | 2026-03-21 | pull-all-repos.shの対象を~/naoki/配下の全リポジトリに変更し、5分ごとの自動実行crontabを設定した。 |
 | 003 | Claude Sandbox Container の設計 | 2026-03-21 | Claude Codeを~/naoki/に閉じ込めたDockerコンテナで動かすための設計。Dockerfile + 起動スクリプト構成。 |
 
+### _global
+| # | タイトル | 日付 | 概要 |
+|---|---------|------|------|
+| 001 | 自律サブタスク実行システムの実装 | 2026-03-21 | 01-tasks-executeスキルと3つのラッパースキル、Discord通知ヘルパーを実装し、vaultタスクの自律実行を構築した。 |
+
 ## knowledge
 
 (まだノートはありません)
