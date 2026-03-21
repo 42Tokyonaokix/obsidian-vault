@@ -2,7 +2,7 @@
 title: "A-3: 容量拠出負担金シミュレーション"
 date: 2026-03-22
 project: 42-chatbot
-status: todo
+status: in_progress
 progress: 1/4
 priority: medium
 tags: [feature, billing, simulation, data-agent, rag]

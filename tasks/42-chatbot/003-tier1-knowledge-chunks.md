@@ -2,8 +2,8 @@
 title: "Tier 1: 制度説明ナレッジチャンク追加"
 date: 2026-03-22
 project: 42-chatbot
-status: todo
-progress: 0/4
+status: in_progress
+progress: 1/4
 priority: high
 tags: [rag, knowledge, zendesk, cs-support]
 ---
@@ -25,7 +25,7 @@ Zendesk問い合わせ分析（339件）で特定した7トピックについて
 
 ## タスク
 
-- [ ] ST-1: 7つのYAMLナレッジチャンクを作成
+- [x] ST-1: 7つのYAMLナレッジチャンクを作成
 - [ ] ST-2: テストCSVを作成
 - [ ] ST-3: seed_knowledge.py で取り込み確認
 - [ ] ST-4: 目視レビュー + PR作成
