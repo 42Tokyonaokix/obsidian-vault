@@ -3,7 +3,7 @@ title: "RAG メタデータフィルタリング: ユーザー契約情報に基
 date: 2026-03-21
 project: 42-chatbot
 status: todo
-progress: 0/6
+progress: 0/7
 priority: high
 tags: [rag, metadata, filtering, contract]
 ---
@@ -12,7 +12,7 @@ tags: [rag, metadata, filtering, contract]
 
 現状のRAGはユーザーが誰であるかに関わらず同じ検索結果を返す。しかし実際にはユーザーごとに契約している約款が異なり（低圧/高圧/特別高圧、地域別託送約款など）、関係のない約款の情報が返されると混乱や誤解を招く。
 
-本タスクでは、ユーザーの契約情報（DGM API の `ContractInfo.plan_type`）から電圧種別を導出し、RAG検索時にチャンクの `metadata.voltage_type` でフィルタリングすることで、そのユーザーの契約に適した約款・文書だけを優先的に返せるようにする。既存の `voltage_filter`（クエリテキストから電圧種別を推測する方式）を、契約情報ベースに拡張する形で実装する。
+本タスクでは、ユーザーの契約情報（DGM API の `ContractInfo.plan_type`）から電圧種別を導出し、RAG検索時にチャンクの `metadata.voltage_type` でフィルタリングすることで、そのユーザーの契約に適した約款・文書だけを優先的に返せるようにする。既存の `voltage_filter`（クエリテキストから電圧種別を推測する方式）を、契約情報ベースに拡張する形で実装する。加えて、地域託送約款についても `metadata.area` でフィルタリングし、ユーザーの契約地域に適した託送約款のみを返す。地域情報が API から取得できない場合は、チャット UI 上でユーザーに地域を選択してもらうフォールバックを設ける。
 
 ### 背景・前提
 
@@ -28,7 +28,8 @@ tags: [rag, metadata, filtering, contract]
 - [ ] ST-2: AdvancedRAGStrategy の SQL にメタデータフィルタ条件を追加
 - [ ] ST-3: knowledge_search ツールへの契約コンテキスト注入
 - [ ] ST-4: 既存 voltage_filter との統合
-- [ ] ST-5: area フィルタの追加（託送約款対応）— オプション
+- [ ] ST-5: area フィルタの追加（託送約款対応）— 必須
+- [ ] ST-5b: area 未取得時の UI 地域選択フォールバック
 - [ ] ST-6: 統合テストとフィルタリングログ記録
 
 ---
@@ -121,19 +122,66 @@ tags: [rag, metadata, filtering, contract]
 
 ---
 
-### ST-5: area フィルタの追加（託送約款対応）— オプション
+### ST-5: area フィルタの追加（託送約款対応）— 必須
 
-**意図**: 約款だけでなく、地域託送約款も存在する（北海道電力、東北電力、東京電力 等）。これらのチャンクには `metadata.area` が付与済み。ユーザーの契約地域がわかれば、該当地域の託送約款だけを返せるようになる。ただし DGM API のレスポンスに地域情報が含まれるかが未確認のため、オプション扱い。
+**意図**: 電気需給約款だけでなく、地域託送約款も重要なナレッジソースである（北海道電力、東北電力、東京電力、中部電力、北陸電力、関西電力、中国電力、四国電力、九州電力、沖縄電力）。これらのチャンクには既に `metadata.area` が付与済み。ユーザーの契約地域に応じた託送約款だけを返すことで、他地域の無関係な料金体系や制度情報が混入することを防ぐ。voltage_type フィルタと並んで必須のフィルタリング項目。
 
 **詳細**:
-- DGM API のレスポンスに地域情報（`area` または類似フィールド）が含まれるか確認
-- 含まれる場合: ST-1 のマッピング関数に `plan_type → area` の変換を追加し、`metadata_filter` に `{"voltage_type": vt, "area": area}` を渡す
-- 含まれない場合: このサブタスクはスキップし、将来タスクとして記録
+- DGM API のレスポンスに地域情報（`area` または `supply_point_id` から地域推定可能なフィールド）が含まれるか確認
+- **含まれる場合**: ST-1 のマッピング関数に地域導出ロジックを追加し、`metadata_filter` に `{"voltage_type": vt, "area": area}` を渡す
+- **含まれない場合**: ST-5b（UI 地域選択フォールバック）で対応する。スキップは不可
 - フィルタの SQL パターンは ST-2 と同じ（`metadata->>'area' = :area`）
+- area フィルタは `doc_type` が地域託送約款のチャンクにのみ適用。電気需給約款や general ドキュメントには影響しない
+- area の値一覧（チャンクメタデータとの整合性を確認）:
+  - 北海道電力、東北電力、東京電力、中部電力、北陸電力、関西電力、中国電力、四国電力、九州電力、沖縄電力
 
 **対象ファイル**: ST-1, ST-2 と同じファイル群
 
-**依存**: ST-1, ST-2。DGM API 仕様確認が前提
+**依存**: ST-1, ST-2
+
+---
+
+### ST-5b: area 未取得時の UI 地域選択フォールバック
+
+**意図**: DGM API から地域情報が取得できない場合でも、地域託送約款のフィルタリングは必須要件である。ユーザーに地域を選択してもらうことで、API に依存せずに area フィルタを適用可能にする。初回選択後はセッションに保持し、毎回聞き直さない設計にする。
+
+**詳細**:
+
+**バックエンド側**:
+- チャットセッション（`ConversationCache` または `session_metadata`）に `selected_area: str | None` フィールドを追加
+- `knowledge_search` ツールの契約コンテキスト解決フロー（ST-3）を拡張:
+  1. DGM API から area が取得できた → そのまま使用
+  2. DGM API から取得できない + セッションに `selected_area` がある → セッション値を使用
+  3. どちらもない → `area_selection_required: true` をレスポンスに含め、フロントにプロンプトを促す
+- area 選択を受け付ける API エンドポイントまたはチャットメッセージハンドラを追加:
+  - `POST /api/v1/chat/area` or チャットメッセージ内のメタデータとして受け取る
+  - 受け取った area をセッションに保存
+
+**フロントエンド側（widget）**:
+- チャットウィジェットに地域選択 UI を追加
+  - サーバーから `area_selection_required: true` を受け取った場合に表示
+  - ドロップダウンまたはボタンリスト形式（10地域から1つ選択）
+  - 選択肢: 北海道電力 / 東北電力 / 東京電力 / 中部電力 / 北陸電力 / 関西電力 / 中国電力 / 四国電力 / 九州電力 / 沖縄電力
+- 選択後、area をサーバーに送信しセッションに保存
+- 以降のチャットでは再選択不要（セッション中は保持）
+- 設定変更したい場合のための「地域を変更」ボタンも用意（ヘッダーまたはサイドバー）
+
+**UX フロー**:
+```
+ユーザーがチャット開始
+  → 契約情報から area 取得を試みる
+  → 取得できない場合、初回の knowledge_search 呼び出し時に:
+    Bot: 「お住まいの地域を選択してください（託送約款の情報を正確にお伝えするために必要です）」
+    [北海道] [東北] [東京] [中部] [北陸] [関西] [中国] [四国] [九州] [沖縄]
+  → ユーザーが選択
+  → セッションに保存、以降のチャットで area フィルタが自動適用
+```
+
+**対象ファイル**:
+- バックエンド: `src/app/api/v1/chat.py`, `src/app/services/agent/tools/knowledge_search.py`, `src/app/memory/` or `src/app/services/cache/`
+- フロントエンド: `widget/src/` 配下のチャットコンポーネント
+
+**依存**: ST-5（area フィルタの SQL 実装が先）
 
 ---
 
@@ -149,17 +197,23 @@ tags: [rag, metadata, filtering, contract]
 - DGM API エラー時にフォールバック（フィルタなし）で検索が正常完了すること
 - `metadata_filter=None` で全戦略が従来通り動作すること（リグレッションテスト）
 - 契約フィルタ適用時に既存 voltage_filter がスキップされること（ST-4 の検証）
+- area フィルタ: 東京電力ユーザーに東京電力の託送約款のみ返ること
+- area フィルタ: 託送約款以外のチャンク（電気需給約款、general）は area フィルタの影響を受けないこと
+- area UI 選択: セッションに保存した area が後続の検索で正しく適用されること
+- area UI 選択: DGM API から area 取得不可時に `area_selection_required` フラグが返ること
 
 **ログ記録**:
 - structlog で以下のフィールドを記録:
   - `contract_filter_applied: bool` — フィルタが適用されたか
   - `contract_filter_voltage_type: str | None` — 適用された voltage_type
+  - `contract_filter_area: str | None` — 適用された area
+  - `contract_filter_area_source: str | None` — area の取得元（"api" / "session" / None）
   - `contract_filter_skipped_reason: str | None` — スキップ理由（API エラー、未知 plan_type 等）
 - 既存のリクエストログ（`src/app/core/logging.py`）に統合
 
 **対象ファイル**: `tests/` 配下に新規テストファイル追加、`src/app/core/logging.py`
 
-**依存**: ST-1〜ST-4 すべて完了後
+**依存**: ST-1〜ST-5b すべて完了後
 
 ---
 
@@ -169,7 +223,8 @@ tags: [rag, metadata, filtering, contract]
 ST-1 (マッピング関数)
 ├──> ST-2 (SQL フィルタ) ──> ST-4 (voltage_filter 統合)
 ├──> ST-3 (コンテキスト注入) ← ST-2 も前提
-└──> ST-5 (area フィルタ, オプション) ← ST-2 も前提
+└──> ST-5 (area フィルタ) ← ST-2 も前提
+      └──> ST-5b (area UI 選択フォールバック) ← ST-3 も前提
 すべて ──> ST-6 (テスト + ログ)
 ```
 
