@@ -22,6 +22,7 @@
 | 007 | JWT トークン注入バグ修正と config metadata 自動注入への移行 | 2026-03-21 | LLM が誤った tenant_id/user_id で API 呼び出しする問題を修正。tool 引数から config metadata 自動注入に移行。 |
 | 008 | Multi-Agent jwt_token 設計分析と config.metadata 移行計画 | 2026-03-22 | MultiAgent の Data Agent ツール7つの jwt_token をツール引数から config.metadata 方式に移行する計画を策定。 |
 | 009 | Multi-Agent jwt_token を config.metadata 方式に移行（実装） | 2026-03-22 | 008の計画に基づきData Agentツール7件をconfig.metadata方式に移行。Protocol・orchestrator・execute_task_node・テストを更新。全203テストパス。 |
+| 010 | プロジェクトまとめ & スライド（プレゼン用） | 2026-03-22 | 42-chatbotの現状・成果・ロードマップをまとめた資料とMarpスライドを作成。 |
 
 #### タスク
 | # | タイトル | ステータス | 優先度 |
