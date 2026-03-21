@@ -23,6 +23,7 @@
 | 008 | Multi-Agent jwt_token 設計分析と config.metadata 移行計画 | 2026-03-22 | MultiAgent の Data Agent ツール7つの jwt_token をツール引数から config.metadata 方式に移行する計画を策定。 |
 | 009 | Multi-Agent jwt_token を config.metadata 方式に移行（実装） | 2026-03-22 | 008の計画に基づきData Agentツール7件をconfig.metadata方式に移行。Protocol・orchestrator・execute_task_node・テストを更新。全203テストパス。 |
 | 010 | プロジェクトまとめ & スライド（プレゼン用） | 2026-03-22 | 42-chatbotの現状・成果・ロードマップをまとめた資料とMarpスライドを作成。 |
+| 011 | Tier 3: 容量拠出金制度ナレッジチャンク作成 & A-3 設計整理 | 2026-03-22 | A-3 ST-1完了。OCCTO公式ベースの制度解説6チャンク作成、ファクトチェックで約定価格誤り修正。 |
 
 #### タスク
 | # | タイトル | ステータス | 優先度 |
