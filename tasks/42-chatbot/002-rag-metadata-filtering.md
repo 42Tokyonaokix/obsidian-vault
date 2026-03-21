@@ -2,7 +2,7 @@
 title: "RAG メタデータフィルタリング: ユーザー契約情報に基づく検索結果の絞り込み"
 date: 2026-03-21
 project: 42-chatbot
-status: todo
+status: in_progress
 progress: 0/7
 priority: high
 tags: [rag, metadata, filtering, contract]
