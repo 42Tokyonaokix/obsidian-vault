@@ -23,6 +23,17 @@
 | 008 | Multi-Agent jwt_token 設計分析と config.metadata 移行計画 | 2026-03-22 | MultiAgent の Data Agent ツール7つの jwt_token をツール引数から config.metadata 方式に移行する計画を策定。 |
 | 009 | Multi-Agent jwt_token を config.metadata 方式に移行（実装） | 2026-03-22 | 008の計画に基づきData Agentツール7件をconfig.metadata方式に移行。Protocol・orchestrator・execute_task_node・テストを更新。全203テストパス。 |
 
+#### タスク
+| # | タイトル | ステータス | 優先度 |
+|---|---------|----------|--------|
+| 002 | RAGメタデータフィルタリング | todo | - |
+| 003 | Tier 1: 制度説明ナレッジチャンク追加 | todo | high |
+| 005 | Tier 2: 手続き系エスカレーション改善 | todo | high |
+| 006 | A-2: 請求スケジュール・ステータス照会 | todo | high |
+| 007 | A-1: 契約容量変更ナビゲーター | todo | high |
+| 008 | A-4: 解約・切替ウィザード | todo | medium |
+| 009 | A-3: 容量拠出負担金シミュレーション | todo | medium |
+
 ### dotfiles
 | # | タイトル | 日付 | 概要 |
 |---|---------|------|------|
