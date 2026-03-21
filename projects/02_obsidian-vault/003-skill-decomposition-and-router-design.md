@@ -1,7 +1,7 @@
 ---
 title: "スキル分解とルーター設計"
 date: 2026-03-20
-project: obsidian-vault-setup
+project: 02_obsidian-vault
 tags: [skill, task-management, architecture]
 ---
 

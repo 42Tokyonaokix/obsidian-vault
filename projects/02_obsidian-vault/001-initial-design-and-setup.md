@@ -1,7 +1,7 @@
 ---
 title: "ナレッジベースの設計と初期セットアップ"
 date: 2026-03-20
-project: obsidian-vault-setup
+project: 02_obsidian-vault
 tags: []
 ---
 

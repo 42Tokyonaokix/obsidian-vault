@@ -1,7 +1,7 @@
 ---
 title: "タスク管理機能の設計と実装"
 date: 2026-03-20
-project: obsidian-vault-setup
+project: 02_obsidian-vault
 tags: []
 ---
 

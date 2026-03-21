@@ -1,7 +1,7 @@
 ---
 title: "スキルルーター・番号帯プレフィックスの実装"
 date: 2026-03-21
-project: obsidian-vault-setup
+project: 02_obsidian-vault
 tags: [skill, refactoring, implementation]
 ---
 

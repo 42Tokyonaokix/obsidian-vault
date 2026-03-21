@@ -4,11 +4,17 @@
 
 ## ディレクトリ構造
 
-- `projects/{project-name}/` — プロジェクト作業記録
-- `projects/{project-name}/{sub-project}/` — サブプロジェクト（最大2階層）
-- `knowledge/{category}/` — 汎用ナレッジ
-- フォルダ名はケバブケース（例: `webapp-dev`, `python-tips`）
-- 新しいフォルダは必要に応じて作成してよい
+- `projects/{repo-name}/` — プロジェクト作業記録（リポジトリ単位）
+- `tasks/{repo-name}/` — プロジェクト単位のタスク
+- `tasks/_global/` — プロジェクト横断TODO
+- フォルダ名は対応する Git リポジトリ名をそのまま使う
+
+### フォルダ作成ルール
+
+- **トップレベル（`projects/` `tasks/` 直下）にフォルダを新規作成してはならない**
+  - 新しいリポジトリ用のフォルダが必要な場合、ユーザーに確認を取ること
+- サブフォルダ（`projects/{repo}/xxx/`）は必要に応じて自動作成してよい
+- `_global` はリポジトリ横断の作業・タスクに使用する
 
 ## ファイル命名
 
@@ -35,21 +41,6 @@ tags: []
 - `## 決定事項` — このセッションで決めたこと（あれば）
 - `## 次にやること` — 引き継ぎ事項（あれば）
 
-### 汎用ナレッジ（knowledge用）
-
-````yaml
----
-title: "タイトル"
-date: YYYY-MM-DD
-category: category-name
-tags: []
----
-````
-
-セクション:
-- `## 概要` — 必須。何についてのノートか1〜2行で。registry.mdに転記する
-- `## 内容` — 本文
-
 ### 共通ルール
 
 - frontmatterは必須（title, date, tags）
@@ -73,10 +64,8 @@ tags: []
 
 ## コミットメッセージ形式
 
-- projects用: `docs({project-name}): {slug}`
-  - 例: `docs(webapp-dev): auth-implementation`
-- knowledge用: `docs(knowledge/{category}): {slug}`
-  - 例: `docs(knowledge/python): asyncio-basics`
+- `docs({repo-name}): {slug}`
+  - 例: `docs(42-chatbot): jwt-token-fix`
 
 ## registry.md の更新ルール
 
