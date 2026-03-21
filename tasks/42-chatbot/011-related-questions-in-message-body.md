@@ -2,8 +2,8 @@
 title: "SingleReactOrchestratorのストリーミングで関連質問テキストがメッセージ本文に混入する問題の修正"
 date: 2026-03-22
 project: 42-chatbot
-status: todo
-progress: 0/4
+status: done
+progress: 4/4
 priority: high
 tags: [widget, backend, bugfix, streaming, related-questions]
 ---
@@ -95,10 +95,10 @@ tags: [widget, backend, bugfix, streaming, related-questions]
 
 ## タスク
 
-- [ ] `SingleReactOrchestrator.astream()` にデリミタ検知・トークン送出抑止ロジックを追加
-- [ ] `useConversation.ts` に防御的サニタイズを追加
-- [ ] バックエンドのストリーミングテストを追加
-- [ ] フロントエンドのサニタイズテストを追加
+- [x] `SingleReactOrchestrator.astream()` にデリミタ検知・トークン送出抑止ロジックを追加
+- [x] `useConversation.ts` に防御的サニタイズを追加
+- [x] バックエンドのストリーミングテストを追加
+- [x] フロントエンドのサニタイズテストを追加
 
 ## 各タスクの詳細
 

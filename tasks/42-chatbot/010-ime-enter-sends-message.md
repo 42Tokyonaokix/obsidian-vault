@@ -2,8 +2,8 @@
 title: "IME変換確定のEnterキーでメッセージが誤送信される問題の修正"
 date: 2026-03-22
 project: 42-chatbot
-status: todo
-progress: 0/2
+status: done
+progress: 2/2
 priority: high
 tags: [widget, bugfix, ime, ux]
 ---
@@ -76,8 +76,8 @@ const handleKeyDown = useCallback(
 
 ## タスク
 
-- [ ] `InputArea.tsx` の `handleKeyDown` に `e.nativeEvent.isComposing` ガードを追加
-- [ ] IME シナリオのユニットテストを追加
+- [x] `InputArea.tsx` の `handleKeyDown` に `e.nativeEvent.isComposing` ガードを追加
+- [x] IME シナリオのユニットテストを追加
 
 ## 各タスクの詳細
 
