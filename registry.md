@@ -21,6 +21,7 @@
 |---|---------|------|------|
 | 001 | dotfilesリポジトリの設計と初期セットアップ | 2026-03-21 | 開発環境をデバイス間で同期するためのdotfilesリポジトリを設計・作成し、GitHubプライベートリポジトリとして公開した。 |
 | 002 | pull-all-repos スクリプト修正とcrontab設定 | 2026-03-21 | pull-all-repos.shの対象を~/naoki/配下の全リポジトリに変更し、5分ごとの自動実行crontabを設定した。 |
+| 003 | Claude Sandbox Container の設計 | 2026-03-21 | Claude Codeを~/naoki/に閉じ込めたDockerコンテナで動かすための設計。Dockerfile + 起動スクリプト構成。 |
 
 ## knowledge
 
