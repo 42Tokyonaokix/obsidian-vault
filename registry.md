@@ -19,6 +19,7 @@
 | 004 | Docker ビルド修正と widget クロスオリジン API ルーティング対応 | 2026-03-21 | ローカル開発環境の起動を妨げていた3つの問題（Dockerビルド失敗、DB未作成、widget APIルーティング不一致）を修正。PR #30。 |
 | 005 | knowledge chunks をカテゴリ別サブディレクトリに再編成 | 2026-03-21 | フラット構造の YAML チャンクファイルを general/DGM操作/地域託送約款/約款 の4カテゴリに再編成。PR #33。 |
 | 006 | Zendesk問い合わせ分析: CS業務軽減のための機能優先度とテスト戦略 | 2026-03-21 | Zendesk 339件を分析し、5 Tier分類・ナレッジ拡充優先・RAG評価テスト40件を策定。 |
+| 007 | JWT トークン注入バグ修正と config metadata 自動注入への移行 | 2026-03-21 | LLM が誤った tenant_id/user_id で API 呼び出しする問題を修正。tool 引数から config metadata 自動注入に移行。 |
 
 ### dotfiles
 | # | タイトル | 日付 | 概要 |
