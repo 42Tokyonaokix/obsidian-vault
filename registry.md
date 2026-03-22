@@ -42,6 +42,7 @@
 | 025 | 問い合わせフォーム: カテゴリ選択 + LLM下書き生成機能 | 2026-03-22 | /inquiryにカテゴリ選択+LLM下書き自動生成を実装。draft API新設、business_tagチケット付与、Widget thread_id連携。21テスト。 |
 | 026 | RAG メタデータフィルタリングを新アーキテクチャに移植 | 2026-03-22 | task/002の voltage_type/area フィルタをSingleReact+React Widgetに移植。14ファイル変更、47テスト全パス。 |
 | 027 | PR: Tier 2・問い合わせフォーム・RAGフィルタリング統合 | 2026-03-22 | feat/tier2-port-and-inquiry-form → main PR。40ファイル変更、+4,691/-196行。全機能統合。 |
+| 028 | 問い合わせフォーム・Zendesk draft機能のrevert復活 | 2026-03-22 | スコープ外として差し戻されていたカテゴリ選択UI・LLMドラフト生成・draft APIを復活。計636行復元。 |
 
 #### タスク
 | # | タイトル | ステータス | 優先度 |
